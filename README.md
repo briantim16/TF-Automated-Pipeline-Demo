@@ -25,27 +25,23 @@ All of the instructions, code, etc… can be deployed from your personal worksta
 
 Terraform install/setup
 
-Log into your Azure VM or continue with your workstation (whichever option is appropriate):
-•	Download latest Windows Terraform package from the Hashicorp website
-> Extract Terraform executable into a folder (recommended “C:\Terraform”)
-> Add the folder to your System Environment Path. Note: if you don’t know how to do this, search “modify System Environment Path on Windows 11” in your preferred search engine.  There are ample instructions out there on how to do this
+Log into your Azure VM or continue with your workstation (whichever option is appropriate):<br>
+•	Download latest Windows Terraform package from the Hashicorp website<br>
+> Extract Terraform executable into a folder (recommended “C:\Terraform”)<br>
+> Add the folder to your System Environment Path. Note: if you don’t know how to do this, search “modify System Environment Path on Windows 11” in your preferred search engine.  There are ample instructions out there on how to do this<br>
 
-•	Update PowerShell and install Azure extensions
-> Open a PowerShell window as “Administrator” and execute each of the following commands:
-> “Install-Module -Name PowerShellGet -Force”
-> “Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser”
-> “Install-Module -Name Az -Repository PSGallery -Force”
-> “Update-Module -Name Az -Force”
+•	Update PowerShell and install Azure extensions<br>
+> Open a PowerShell window as “Administrator” and execute each of the following commands:<br>
+> “Install-Module -Name PowerShellGet -Force”<br>
+> “Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser”<br>
+> “Install-Module -Name Az -Repository PSGallery -Force”<br>
+> “Update-Module -Name Az -Force”<br>
 
-•	Download and install the latest Azure CLI package from Microsoft
-    	Can be done via PowerShell, download MSI package, etc…
-            Here is the PowerShell command: “Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'”
+•	Download and install the latest Azure CLI package from Microsoft<br>
+> Can be done via PowerShell, download MSI package, etc…  Here is the PowerShell command: “Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'”<br>
 
-•	Install VS Code – download latest image from web
-    	Optional, but strongly recommended: install VS Code extensions
-	        Hashicorp Terraform
-	        Azure Terraform
-	        PowerShell
+•	Install VS Code – download latest image from web<br>
+> Optionally, but strongly recommended you install VS Code extensions: Hashicorp Terraform, Azure Terraform<br>
 
 •	Verify Terraform/CLI is functioning
     	Open VS Code, open the folder “C:\tf-demo\Code”
