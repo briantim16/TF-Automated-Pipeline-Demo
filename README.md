@@ -49,7 +49,7 @@ Log into your Azure VM or continue with your workstation (whichever option is ap
 
 •	Verify Terraform/CLI is functioning<br>
 > Open a Terminal window, navigate to directory “c:…\TF-AUTOMATED-PIPELINE-DEMO\terraform\verify”
-> Log into your Azure account: “az login --use-device-code”.  If you have multiple Azure subscriptions, ensure you have changed your context to the appropriate subscription and have “Contributor” or “Owner” permissions<br>
+> Log into your Azure account: “az login --use-device-code”.  If you have multiple Azure subscriptions, ensure you have changed your context to the appropriate subscription and have “Contributor” or “Owner” permissions.<br><br>
 > At the PowerShell Terminal window prompt, type: “terraform init” and hit “enter”. This initializes Terraform.<br>
 > At the PowerShell Terminal window prompt, type: “terraform plan” and hit “enter”. This will show you an output of what Terraform is going to do, indicating it’s going to create a single resource, name, location, etc…<br>
 > At the PowerShell Terminal window prompt, type: “terraform apply -auto-approve” and hit “enter”. This will deploy the Resource Group to your Azure subscription<br>
