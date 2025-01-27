@@ -25,30 +25,17 @@ All of the instructions, code, etc… can be deployed from your personal worksta
 
 Terraform install/setup
 
-•	If you created a new Azure VM<br>
-> Copy “tf-demo.zip” to the VM<br>
-> Create an Azure Storage account or leverage an existing<br>
->	    Create a container and upload “tf-demo.zip”<br>
- >   	Log into the Azure Portal while remoted into the newly created VM<br>
-  >  	Navigate to the storage account/container and download “tf-demo.zip”<br>
-   > 	Extract “tf-demo” to C:\ and it will extract the folders and their contents<br>
-
-•	If you are using your own workstation
-        Extract “tf-demo.zip” to c:\ if you want to follow the instructions below without modification; otherwise you will need to manage your path with supplied commands
-
-Once tf-demo.zip has been extracted and folders created, log into your Azure VM or continue with your workstation (whichever option is appropriate):
+Log into your Azure VM or continue with your workstation (whichever option is appropriate):
 •	Download latest Windows Terraform package from the Hashicorp website
-       	Extract Terraform executable into a folder
-            Recommended “C:\Terraform”
-        Add the folder to your System Environment Path
-        	Note: if you don’t know how to do this, search “modify System Environment Path on Windows 11” in your preferred search engine.  There are ample instructions out there on how to do this
+> Extract Terraform executable into a folder (recommended “C:\Terraform”)
+> Add the folder to your System Environment Path. Note: if you don’t know how to do this, search “modify System Environment Path on Windows 11” in your preferred search engine.  There are ample instructions out there on how to do this
 
 •	Update PowerShell and install Azure extensions
-    	Open a PowerShell window as “Administrator” and execute each of the following commands:
-        	“Install-Module -Name PowerShellGet -Force”
-	        “Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser”
-	        “Install-Module -Name Az -Repository PSGallery -Force”
-	        “Update-Module -Name Az -Force”
+> Open a PowerShell window as “Administrator” and execute each of the following commands:
+> “Install-Module -Name PowerShellGet -Force”
+> “Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser”
+> “Install-Module -Name Az -Repository PSGallery -Force”
+> “Update-Module -Name Az -Force”
 
 •	Download and install the latest Azure CLI package from Microsoft
     	Can be done via PowerShell, download MSI package, etc…
