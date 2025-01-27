@@ -25,43 +25,43 @@ All of the instructions, code, etc… can be deployed from your personal worksta
 
 Terraform install/setup
 
-Log into your Azure VM or continue with your workstation (whichever option is appropriate):<br>
+Log into your Azure VM or continue with your workstation (whichever option is appropriate):<br><br>
 •	Download latest Windows Terraform package from the Hashicorp website<br>
 > Extract Terraform executable into a folder (recommended “C:\Terraform”)<br>
 > Add the folder to your System Environment Path. Note: if you don’t know how to do this, search “modify System Environment Path on Windows 11” in your preferred search engine.  There are ample instructions out there on how to do this<br>
 
-•	Update PowerShell and install Azure extensions<br>
+•	Update PowerShell and install Azure extensions<br><br>
 > Open a PowerShell window as “Administrator” and execute each of the following commands:<br>
 > “Install-Module -Name PowerShellGet -Force”<br>
 > “Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser”<br>
 > “Install-Module -Name Az -Repository PSGallery -Force”<br>
 > “Update-Module -Name Az -Force”<br>
 
-•	Download and install the latest Azure CLI package from Microsoft<br>
+•	Download and install the latest Azure CLI package from Microsoft<br><br>
 > Can be done via PowerShell, download MSI package, etc…  Here is the PowerShell command: “Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'”<br>
 
-•	Install VS Code – download latest image from web<br>
+•	Install VS Code – download latest image from web<br><br>
 > Optionally, but strongly recommended you install VS Code extensions: Hashicorp Terraform, Azure Terraform.<br>
 
 # Clone Git Repository and verify Terraform functionality
 
-•	Open VS Code, select "Clone Git Repository..." and clone this repo to your VM/workstation.  Select a destination that you will remember/know as you'll need it later.<br>
+•	Open VS Code, select "Clone Git Repository..." and clone this repo to your VM/workstation.  Select a destination that you will remember/know as you'll need it later.<br><br>
 
-•	Verify Terraform/CLI is functioning<br>
+•	Verify Terraform/CLI is functioning<br><br>
 > Open a Terminal window, navigate to directory “c:…\TF-AUTOMATED-PIPELINE-DEMO\terraform\verify”
 > Log into your Azure account: “az login --use-device-code”.  If you have multiple Azure subscriptions, ensure you have changed your context to the appropriate subscription and have “Contributor” or “Owner” permissions.<br><br>
-> At the PowerShell Terminal window prompt, type: “terraform init” and hit “enter”. This initializes Terraform.<br>
-> At the PowerShell Terminal window prompt, type: “terraform plan” and hit “enter”. This will show you an output of what Terraform is going to do, indicating it’s going to create a single resource, name, location, etc…<br>
-> At the PowerShell Terminal window prompt, type: “terraform apply -auto-approve” and hit “enter”. This will deploy the Resource Group to your Azure subscription<br>
-> Verify in Azure that you can now see the “MCAPS-TF-Validate” Resource Group<br>
-> Return to your PowerShell window, At the PowerShell prompt, type: “terraform destroy -auto-approve” and hit “enter”. This will delete the “MCAPS-TF-Validate” Resource Group.Congratulations, Terraform is now setup and functioning properly!<br>
+> At the PowerShell Terminal window prompt, type: “terraform init” and hit “enter”. This initializes Terraform.<br><br>
+> At the PowerShell Terminal window prompt, type: “terraform plan” and hit “enter”. This will show you an output of what Terraform is going to do, indicating it’s going to create a single resource, name, location, etc…<br><br>
+> At the PowerShell Terminal window prompt, type: “terraform apply -auto-approve” and hit “enter”. This will deploy the Resource Group to your Azure subscription<br><br>
+> Verify in Azure that you can now see the “MCAPS-TF-Validate” Resource Group<br><br>
+> Return to your PowerShell window, At the PowerShell prompt, type: “terraform destroy -auto-approve” and hit “enter”. This will delete the “MCAPS-TF-Validate” Resource Group.Congratulations, Terraform is now setup and functioning properly!<br><br>
 
 # ADO setup
 
 •	Log into ADO<br>
-•	Create a Personal Access Token and save it in a safe/secure location<br>
+•	Create a Personal Access Token and save it in a safe/secure location<br><br>
 > How to create a PAT: https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows<br>
-Required PAT Scopes – DO NOT just grant full control of everything to the PAT, that is a huge security risk and completely unnecessary for the demo to function. You will need to expand to "show all scopes" in order to assign all required:<br>
+Required PAT Scopes – DO NOT just grant full control of everything to the PAT, that is a huge security risk and completely unnecessary for the demo to function. You will need to expand to "show all scopes" in order to assign all required:<br><br>
 Agent Pools: Read & manage<br>
 Build: Read & execute<br>
 Code: Read, write, & manage<br>
