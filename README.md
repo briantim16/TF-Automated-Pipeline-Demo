@@ -19,7 +19,7 @@ If you do not have access to multiple Azure Subscriptions, don’t worry.  That�
 
 This demo creates a number of Azure resources.  In the interest of full disclosure, running through the steps below will create two Azure Resource Groups, two Storage Accounts (w/containers), two Key Vaults, two SPN’s (w/”Contributor” permissions to the target Subscription(s)), and the Demo itself will generate a single Azure Resource Group when you run either the “prod” or “dev” pipelines – up to two RG’s if you run both “apply” pipelines.  The storage accounts are not connected to any networks and have anonymous access disabled, they are public facing as is required for the demo to work.  Ideally, you will follow the instructions at the very end of this document to clean up/destroy all these resources with the same automation that created them.  Total cost of this environment (as of Q1 2025) is less than $50/mo on a pay-as-you-go account.  Additional cost will be incurred if you deploy a VM to run all your Terraform code and will vary depending on the VM sku.
 
-Environment Prep
+# Environment Prep
 
 All of the instructions, code, etc… can be deployed from your personal workstation or an Azure VM with a Windows-based OS.  Recommended method is to create a new Azure VM with the latest Windows client OS image.  This allows maximum flexibility and the VM can simply be deleted when you’re done and/or if problems arise that are too complex/cumbersome to troubleshoot.  You can always delete the VM and start over, it’s much more challenging to reimage your personal workstation.
 
@@ -41,63 +41,58 @@ Log into your Azure VM or continue with your workstation (whichever option is ap
 > Can be done via PowerShell, download MSI package, etc…  Here is the PowerShell command: “Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'”<br>
 
 •	Install VS Code – download latest image from web<br>
-> Optionally, but strongly recommended you install VS Code extensions: Hashicorp Terraform, Azure Terraform<br>
+> Optionally, but strongly recommended you install VS Code extensions: Hashicorp Terraform, Azure Terraform.<br>
 
-•	Verify Terraform/CLI is functioning
-    	Open VS Code, open the folder “C:\tf-demo\Code”
-	    Open a Terminal window, change directory to “c:…\Code\verify”
-	    Log into your Azure account: “az login --use-device-code”
-	        If you have multiple Azure subscriptions, ensure you have changed your context to the appropriate subscription and have “Contributor” or “Owner” permissions
-	    At the PowerShell Terminal window prompt, type: “terraform init” and hit “enter”
-	        This initializes Terraform
-	    At the PowerShell Terminal window prompt, type: “terraform plan” and hit “enter”
-	        This will show you an output of what Terraform is going to do, indicating it’s going to create a single resource, name, location, etc…
-    	At the PowerShell Terminal window prompt, type: “terraform apply -auto-approve” and hit “enter”
-        	This will deploy the Resource Group to your Azure subscription
-	    Verify in Azure that you can now see the “MCAPS-TF-Validate” Resource Group
-	    Return to your PowerShell window, At the PowerShell prompt, type: “terraform destroy -auto-approve” and hit “enter”
-	        This will delete the “MCAPS-TF-Validate” Resource Group
-	    Congratulations, Terraform is now setup and functioning properly
+# Clone Git Repository and verify Terraform functionality
 
-ADO setup
-•	Log into ADO
-•	Create a Personal Access Token and save it in a safe/secure location
-	    How to create a PAT: https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows
-	    Required PAT Scopes – DO NOT just grant full control of everything to the PAT, that is a huge security risk and completely unnecessary for the demo to function. You will need to expand to "show all scopes" in order to assign all required:
-	        Agent Pools: Read & manage
-            Build: Read & execute
-	        Code: Read, write, & manage
-	        Deployment Groups: Read & manage
-	        Environment: Read & manage
-	        Identity: Read & manage
-	        Member Entitlement Management: Read & write
-	        Pipeline Resources: Use & manage
-	        Project and Team: Read, write, & manage
-	        Release: Read, write, execute, & manage
-            Service Connections: Read, query, & manage
-	        Variable Groups: Read, create, & manage
-•	Retrieve your Azure DevOps organization url:
-	    https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/organization-management?view=azure-devops
+•	Open VS Code, select "Clone Git Repository..." and clone this repo to your VM/workstation.  Select a destination that you will remember/know as you'll need it later.<br>
 
-Azure setup
+•	Verify Terraform/CLI is functioning<br>
+> Open a Terminal window, navigate to directory “c:…\TF-AUTOMATED-PIPELINE-DEMO\terraform\verify”
+> Log into your Azure account: “az login --use-device-code”.  If you have multiple Azure subscriptions, ensure you have changed your context to the appropriate subscription and have “Contributor” or “Owner” permissions<br>
+> At the PowerShell Terminal window prompt, type: “terraform init” and hit “enter”. This initializes Terraform.<br>
+> At the PowerShell Terminal window prompt, type: “terraform plan” and hit “enter”. This will show you an output of what Terraform is going to do, indicating it’s going to create a single resource, name, location, etc…<br>
+> At the PowerShell Terminal window prompt, type: “terraform apply -auto-approve” and hit “enter”. This will deploy the Resource Group to your Azure subscription<br>
+> Verify in Azure that you can now see the “MCAPS-TF-Validate” Resource Group<br>
+> Return to your PowerShell window, At the PowerShell prompt, type: “terraform destroy -auto-approve” and hit “enter”. This will delete the “MCAPS-TF-Validate” Resource Group.Congratulations, Terraform is now setup and functioning properly!<br>
 
-•	Open VS Code, open the folder “c:\tf-demo\Code\”
-•	In VSCode, open the following files:
-    	../terraform/adobuild/terraform.tfvars
-    	../terraform/azureprep/terraform.tfvars
-•	Follow the instructions in the comments for each file – no other changes need to be made to any files in the demo.  Making additional changes will result in unknown behavior and is not recommended.
-•	SAVE YOUR CHANGES
-•	Open a Terminal window, change directory to “c:…\Code\CreateAzResources”
-•	If you haven’t continued from the previous steps above, log into your Azure account: “az login --use-device-code”, otherwise, skip this step
-    	If you have multiple Azure subscriptions, ensure you have changed your context to the appropriate subscription and have “Contributor” or “Owner” permissions
-•	At the PowerShell Terminal window prompt, type: “terraform init” and hit “enter”
-    	This initializes Terraform
-•	At the PowerShell Terminal window prompt, type: “terraform apply -auto-approve” and hit “enter”
-    	This will generate two Azure Resource Groups, two Azure Storage Accounts, two Key Vaults, a number of Key Vault secrets, and two Azure SPN’s and apply “Contributor” permissions to the target subscription(s).
-o	IF Terraform fails creating a resource, try running the “terraform apply -auto-approve” again, sometimes the Azure/Terraform automation doesn’t get all the automatic ‘depends on’ logic right the first time
-o	Open your Azure Portal and verify you now have two Resource Groups:
-    	"MCAPS-prod-demo" – w/storage account: prodstoragetfdemo and a Key Vault w/multiple secrets
-    	"MCAPS-dev-demo" – w/storage account: devstoragetfdemo and a Key Vault w/multiple secrets
+# ADO setup
+
+•	Log into ADO<br>
+•	Create a Personal Access Token and save it in a safe/secure location<br>
+> How to create a PAT: https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows<br>
+Required PAT Scopes – DO NOT just grant full control of everything to the PAT, that is a huge security risk and completely unnecessary for the demo to function. You will need to expand to "show all scopes" in order to assign all required:<br>
+Agent Pools: Read & manage<br>
+Build: Read & execute<br>
+Code: Read, write, & manage<br>
+Deployment Groups: Read & manage<br>
+Environment: Read & manage<br>
+Identity: Read & manage<br>
+Member Entitlement Management: Read & write<br>
+Pipeline Resources: Use & manage<br>
+Project and Team: Read, write, & manage<br>
+Release: Read, write, execute, & manage<br>
+Service Connections: Read, query, & manage<br>
+Variable Groups: Read, create, & manage<br>
+
+•	Retrieve your Azure DevOps organization url (https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/organization-management?view=azure-devops)<br>
+
+# Azure setup
+
+•	Open VS Code, open the folder “c:\tf-demo\Code\”<br>
+•	In VSCode, open the following files:<br>
+    	../terraform/adobuild/terraform.tfvars<br>
+    	../terraform/azureprep/terraform.tfvars<br>
+•	Follow the instructions in the comments for each file – no other changes need to be made to any files in the demo.  Making additional changes will result in unknown behavior and is not recommended.<br>
+•	SAVE YOUR CHANGES<br>
+•	Open a Terminal window, change directory to “c:…\terraform\azureprep”<br>
+•	If you haven’t continued from the previous steps above, log into your Azure account: “az login --use-device-code”, otherwise, skip this step.  If you have multiple Azure subscriptions, ensure you have changed your context to the appropriate subscription and have “Contributor” or “Owner” permissions<br>
+•	At the PowerShell Terminal window prompt, type: “terraform init” and hit “enter”<br>
+•	At the PowerShell Terminal window prompt, type: “terraform apply -auto-approve” and hit “enter”. This will generate two Azure Resource Groups, two Azure Storage Accounts, two Key Vaults, a number of Key Vault secrets, and two Azure SPN’s and apply “Contributor” permissions to the target subscription(s).<br>
+> IF Terraform fails creating a resource, try running the “terraform apply -auto-approve” again, sometimes the Azure/Terraform automation doesn’t get all the automatic ‘depends on’ logic right the first time<br>
+> Open your Azure Portal and verify you now have two Resource Groups:<br>
+    	"MCAPS-prod-demo" – w/storage account: prodstoragetfdemo and a Key Vault w/multiple secrets<br>
+    	"MCAPS-dev-demo" – w/storage account: devstoragetfdemo and a Key Vault w/multiple secrets<br>
 
 Deploying
 
