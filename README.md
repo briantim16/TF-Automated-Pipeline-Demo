@@ -26,12 +26,12 @@ All of the instructions, code, etc… can be deployed from your personal worksta
 Terraform install/setup
 
 •	If you created a new Azure VM<br>
-	    Copy “tf-demo.zip” to the VM<br>
-	    Create an Azure Storage account or leverage an existing<br>
-	    Create a container and upload “tf-demo.zip”<br>
-    	Log into the Azure Portal while remoted into the newly created VM<br>
-    	Navigate to the storage account/container and download “tf-demo.zip”<br>
-    	Extract “tf-demo” to C:\ and it will extract the folders and their contents<br>
+> Copy “tf-demo.zip” to the VM<br>
+> Create an Azure Storage account or leverage an existing<br>
+>	    Create a container and upload “tf-demo.zip”<br>
+ >   	Log into the Azure Portal while remoted into the newly created VM<br>
+  >  	Navigate to the storage account/container and download “tf-demo.zip”<br>
+   > 	Extract “tf-demo” to C:\ and it will extract the folders and their contents<br>
 
 •	If you are using your own workstation
         Extract “tf-demo.zip” to c:\ if you want to follow the instructions below without modification; otherwise you will need to manage your path with supplied commands
