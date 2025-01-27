@@ -61,6 +61,7 @@ Log into your Azure VM or continue with your workstation (whichever option is ap
 •	Log into ADO<br>
 •	Create a Personal Access Token and save it in a safe/secure location<br><br>
 > How to create a PAT: https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows<br>
+
 Required PAT Scopes – DO NOT just grant full control of everything to the PAT, that is a huge security risk and completely unnecessary for the demo to function. You will need to expand to "show all scopes" in order to assign all required:<br><br>
 Agent Pools: Read & manage<br>
 Build: Read & execute<br>
@@ -79,51 +80,42 @@ Variable Groups: Read, create, & manage<br>
 
 # Azure setup
 
-•	Open VS Code, open the folder “c:\tf-demo\Code\”<br>
 •	In VSCode, open the following files:<br>
     	../terraform/adobuild/terraform.tfvars<br>
-    	../terraform/azureprep/terraform.tfvars<br>
-•	Follow the instructions in the comments for each file – no other changes need to be made to any files in the demo.  Making additional changes will result in unknown behavior and is not recommended.<br>
-•	SAVE YOUR CHANGES<br>
-•	Open a Terminal window, change directory to “c:…\terraform\azureprep”<br>
-•	If you haven’t continued from the previous steps above, log into your Azure account: “az login --use-device-code”, otherwise, skip this step.  If you have multiple Azure subscriptions, ensure you have changed your context to the appropriate subscription and have “Contributor” or “Owner” permissions<br>
-•	At the PowerShell Terminal window prompt, type: “terraform init” and hit “enter”<br>
-•	At the PowerShell Terminal window prompt, type: “terraform apply -auto-approve” and hit “enter”. This will generate two Azure Resource Groups, two Azure Storage Accounts, two Key Vaults, a number of Key Vault secrets, and two Azure SPN’s and apply “Contributor” permissions to the target subscription(s).<br>
-> IF Terraform fails creating a resource, try running the “terraform apply -auto-approve” again, sometimes the Azure/Terraform automation doesn’t get all the automatic ‘depends on’ logic right the first time<br>
+    	../terraform/azureprep/terraform.tfvars<br><br>
+•	Follow the instructions in the comments for each file – no other changes need to be made to any files in the demo.  Making additional changes will result in unknown behavior and is not recommended.<br><br>
+•	SAVE YOUR CHANGES<br><br>
+•	Open a Terminal window, change directory to “c:…\terraform\azureprep”<br><br>
+•	If you haven’t continued from the previous steps above, log into your Azure account: “az login --use-device-code”, otherwise, skip this step.  If you have multiple Azure subscriptions, ensure you have changed your context to the appropriate subscription and have “Contributor” or “Owner” permissions<br><br>
+•	At the PowerShell Terminal window prompt, type: “terraform init” and hit “enter”<br><br>
+•	At the PowerShell Terminal window prompt, type: “terraform apply -auto-approve” and hit “enter”. This will generate two Azure Resource Groups, two Azure Storage Accounts, two Key Vaults, a number of Key Vault secrets, and two Azure SPN’s and apply “Contributor” permissions to the target subscription(s).<br><br>
+> IF Terraform fails creating a resource, try running the “terraform apply -auto-approve” again, sometimes the Azure/Terraform automation doesn’t get all the automatic ‘depends on’ logic right the first time.<br>
 > Open your Azure Portal and verify you now have two Resource Groups:<br>
     	"MCAPS-prod-demo" – w/storage account: prodstoragetfdemo and a Key Vault w/multiple secrets<br>
     	"MCAPS-dev-demo" – w/storage account: devstoragetfdemo and a Key Vault w/multiple secrets<br>
 
-Deploying
+# Deploying ADO Project
 
-•	Open VS Code, open the C:…\Code\Demo folder
-	    If you have not done so already, follow the instructions above to get your environment setup and/or follow the readme.md file
-•	Open a Terminal window in VS Code, change directory to “c:…\Code\Demo”
-•	Log into your Azure tenant and set context to the appropriate Subscription
-	    az login --use-device-code
-•	In the terminal type: “terraform init” and hit “enter”
-•	In the terminal type: “terraform plan”
-	    Note: you do not need to specify the terraform.tfvars file because Terraform is smart enough to look for and use that file if it is present in the directory
-	    This will run and validate the plan but will not deploy anything
-	    If the plan successfully executes move onto the next step
-•	In the terminal type: “terraform apply -auto-approve”
-	    This will run and apply the Terraform code to your ADO environment
-	    NOTE: if there are 401 errors when Terraform is attempting to build the environment, this is likely due to improper permissions on the Personal Access Token, double check that the appropriate scope/permissions have been granted to the PAT and try again.
-•	Log into ADO and verify the new ADO Project is visible
-	    Run the pipelines, verify in the Azure portal that the appropriate resources are being created, deleted, etc…
-        NOTE: you will likely need to approve resource access the first time you run a pipeline, simply approve the request and the pipeline will execute, this is a one-time approval
-•	If desired, you can connect to the repo generated by the Demo, create a branch, make some updates, commit, and push with the pipelines – this is purely optional
+•	Open VS Code, if you have not done so already, follow the instructions above to get your environment setup and/or follow the readme.md file<br><br>
+•	Open a Terminal window in VS Code, change directory to “c:…\terraform\adobuild”<br><br>
+•	If you have not continued from a previous step, log into your Azure tenant and set context to the appropriate Subscription (az login --use-device-code)<br><br>
+•	In the terminal type: “terraform init” and hit “enter”<br><br>
+•	In the terminal type: “terraform plan”<br>
+>	    Note: you do not need to specify the terraform.tfvars file because Terraform is smart enough to look for and use that file if it is present in the directory. This will run and validate the plan but will not deploy anything. If the plan successfully executes move onto the next step.<br><br>
 
-CLEAN UP YOUR ENVIRONMENT
+•	In the terminal type: “terraform apply -auto-approve”. This will run and apply the Terraform code to your ADO environment.<br>
+> NOTE: if there are 401 errors when Terraform is attempting to build the environment, this is likely due to improper permissions on the Personal Access Token, double check that the appropriate scope/permissions have been granted to the PAT and try again.<br><br>
 
-•	When you are done, clean up the resources from the terminal:
-	    Type: “terraform destroy -auto-approve” and hit “enter”
-	        This will delete all ADO resources previously deployed by the Demo
+•	Log into ADO and verify the new ADO Project is visible<br><br>
+•	Run the pipelines, verify in the Azure portal that the appropriate resources are being created, deleted, etc… NOTE: you will likely need to approve resource access the first time you run a pipeline, simply approve the request and the pipeline will execute, this is a one-time approval.<br><br>
+•	If desired, you can connect to the repo generated by the Demo, create a branch, make some updates, commit, and push with the pipelines – this is purely optional, keep in mind anything you create with the demo will need to be manually deleted later as there are only "plan" and "apply" pipelines.  Or build your own "destroy" pipeline as an exercise.  Future versions of this demo will have instructions on how to do this.<br><br>
 
-•	In the Terminal window, change directory to “c:…\Code\CreateAzResources”
-	    Run “terraform init”
-	    Run “terraform destroy -auto-approve”, this will destroy the Service Principals, Storage Accounts, Key Vaults and Resource Groups
+# CLEAN UP YOUR ENVIRONMENT
 
-•	Log into your Azure Portal – manually locate and delete the Resource Group(s) deployed by the ADO pipeline(s)
+•	When you are done, clean up the resources from the terminal. Ensure you are still in the “c:…\terraform\adobuild” folder and type: “terraform destroy -auto-approve” and hit “enter”. This will delete all ADO resources previously deployed by the Demo.<br><br>
+
+•	In the Terminal window, change directory to “c:…\terraform\azureprep”, run “terraform init”, run “terraform destroy -auto-approve”. This will destroy the Service Principals, Storage Accounts, Key Vaults and Resource Groups.<br><br>
+
+•	Log into your Azure Portal – manually locate and delete the Resource Group(s) deployed by the ADO pipeline(s)<br><br>
 
 
