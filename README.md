@@ -54,7 +54,8 @@ Log into your Azure VM or continue with your workstation (whichever option is ap
 > At the PowerShell Terminal window prompt, type: “terraform plan” and hit “enter”. This will show you an output of what Terraform is going to do, indicating it’s going to create a single resource, name, location, etc…<br><br>
 > At the PowerShell Terminal window prompt, type: “terraform apply -auto-approve” and hit “enter”. This will deploy the Resource Group to your Azure subscription<br><br>
 > Verify in Azure that you can now see the “MCAPS-TF-Validate” Resource Group<br><br>
-> Return to your PowerShell window, At the PowerShell prompt, type: “terraform destroy -auto-approve” and hit “enter”. This will delete the “MCAPS-TF-Validate” Resource Group.Congratulations, Terraform is now setup and functioning properly!<br><br>
+> Return to your PowerShell window, At the PowerShell prompt, type: “terraform destroy -auto-approve” and hit “enter”. This will delete the “MCAPS-TF-Validate” Resource Group.<br><br>
+Congratulations, Terraform is now setup and functioning properly!<br><br>
 
 # ADO setup
 

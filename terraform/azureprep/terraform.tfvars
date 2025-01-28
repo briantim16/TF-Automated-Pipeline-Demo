@@ -7,4 +7,4 @@
 #   YOU MUST PROVIDE AZURE SUBSCRIPTION(S) AND AN EMAIL ALIAS FOR THE PERSON LOGGED INTO AZURE RUNNING THE DEMO
 dev_subscription_id  = "<DEV_SUBSCRIPTION>"  # This is the subscription ID for the development environment, or the subscription you have access to
 prod_subscription_id = "<PROD_SUBSCRIPTION>" # This is the subscription ID for the production environment, or the subscription you have access to
-app_owner = "<your@email.here>"
+app_owner = "<your@email.here>" # This is generally going to be the email address of the person running the script, someone who can create Service Pincipals and Applications in Azure
